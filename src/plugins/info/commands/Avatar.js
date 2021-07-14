@@ -15,7 +15,9 @@ module.exports = new Command({
     let isGif = member.avatarURL.endsWith(".gif") ? ".gif" : ".jpeg";
 
     if (args[1] === "--raw") {
-        return message.channel.createMessage(`<${member.user.dynamicAvatarURL(isGif, 256)}>`);
+        return message.channel.createMessage(
+            Util.createCodeBlock(member.user.dynamicAvatarURL(isGif, 256))
+        );
     }
 
     message.channel.createMessage(member.user.dynamicAvatarURL(isGif, 256));

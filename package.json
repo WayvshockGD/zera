@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.1",
+    "color-parser": "^0.1.0",
     "eris": "^0.15.1",
     "moment": "^2.29.1",
     "yaml": "^1.10.2"

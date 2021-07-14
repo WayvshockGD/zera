@@ -1,4 +1,4 @@
-import Eris from "eris"
+import Eris from "eris";
 
 export = class Util {
     public static commandError<T>(channel: Eris.TextChannel, content: T) {
@@ -8,5 +8,10 @@ export = class Util {
                 description: `:x: ${content}`
             }
         })
+    }
+
+    public static createCodeBlock(content: string | string[], join?: string) {
+        if (Array.isArray(content)) content = content.join(join || "\n");
+        return "```" + content + "```";
     }
 }
