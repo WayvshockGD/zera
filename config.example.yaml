@@ -1,0 +1,11 @@
+config:
+  beta: false
+  owners:
+    - ""
+    - ""
+  prefix:
+    betaPrefix: ""
+    botPrefix: ""
+  token:
+    betaToken: ""
+    botToken: ""

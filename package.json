@@ -5,7 +5,8 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "eris": "^0.15.1"
+    "eris": "^0.15.1",
+    "yaml": "^1.10.2"
   },
   "name": "zera",
   "version": "1.0.0",
