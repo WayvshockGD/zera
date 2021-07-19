@@ -13,27 +13,29 @@ module.exports = new Command({
         case true:
             let color = args[0].startsWith("#") ? args[0] : `#${args[0]}`;
             let parsed = colorParser(color);
-
-            console.log(color.split("#")[1])
+            let embedColor = `0x${color.split("#")[1]}`;
 
             message.channel.createMessage({
                 embed: new MessageEmbed()
                         .setFields([
                             {
                                 name: "Color",
-                                value: color,
+                                value: color.toLowerCase(),
                             },
                             {
                                 name: "RGB",
                                 value: Object.values(parsed).join(", ") 
                             }
                         ])
-                        .setColor(parseInt(color.split("#")[1]))
+                        .setIntColor(parseInt(embedColor))
                         .create()
             })
-            
             break;
-    
+        case false:
+            return message.channel.createMessage({
+                embed: new MessageEmbed()
+                       .createErrorEmbed(`Unknown color \`${args[0]}\``)
+            });
         default:
             message.channel.createMessage("Say a color you need to look at.");
             break;

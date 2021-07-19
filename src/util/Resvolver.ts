@@ -4,7 +4,7 @@ export = class Resolver {
     public static getUser(guild: Eris.Guild, args: string) {
         let user = guild.members.find(u => u.id === this.clean(args)) ||
                    guild.members.find(u => u.username === args) ||
-                   guild.members.find(u => u.nick === args) || false;
+                   guild.members.find(u => u.nick === args);
         
         return user;
 

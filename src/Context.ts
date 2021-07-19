@@ -21,7 +21,11 @@ export interface config {
 export interface caches<T extends string> {
     commands: Map<T, botCommand>;
     plugins: Map<T, botPlugin>;
+    subCommands: Map<T, botSubCommand>;
 } 
+
+
+export type execute = ({}: ctx) => void;
 
 export interface botPlugin {
     name: string;
@@ -30,14 +34,25 @@ export interface botPlugin {
     commands: botCommand[];
 }
 
+export interface subCommandBuilder {
+    name: string;
+    enabled: boolean;
+}
+
 export interface botCommand {
     name: string;
     desc: string;
     permission?: string;
+    subCommands?: subCommandBuilder[];
     owner?: boolean;
     guildOnly?: boolean;
     [key: string]: any;
-//    execute: ({}: ctx) => Promise<string>;
+}
+
+export interface botSubCommand {
+    name: subCommandBuilder;
+    enabled: boolean;
+    [key: string]: any;
 }
 
 export interface ctx {

@@ -1,6 +1,4 @@
-import { botCommand, ctx } from "../Context";
-
-type execute = ({}: ctx) => void;
+import { botCommand, ctx, execute, subCommandBuilder } from "../Context";
 
 export = class Command {
 
@@ -10,9 +8,13 @@ export = class Command {
 
     desc: string;
 
+    enabled: boolean;
+
     permission: string | undefined;
 
     owner: boolean | undefined;
+
+    subCommands: subCommandBuilder[];
 
     constructor(options: botCommand, fn: execute) {
 
@@ -25,6 +27,10 @@ export = class Command {
         this.desc = options.desc;
 
         this.owner = options.owner;
+
+        this.enabled = options.enabled;
+
+        this.subCommands = options.subCommands || [];
 
     }
 

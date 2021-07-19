@@ -4,7 +4,7 @@ import Zera from "../Zera";
 
 export = class CommandHandler {
     public static run(message: Eris.Message, client: Zera) {
-        let {} = client;
+        let { subCommands } = client;
         let { prefix } = TestManager;
 
         if (!message.content.startsWith(prefix)) return;
@@ -13,10 +13,21 @@ export = class CommandHandler {
 
         let command = client.commands.get(args[0]);
 
-        args = args.slice(1);
-
         if (!command) return;
 
+        let subCommand = subCommands.get(args[1]);
+
+        if (subCommand) {
+            args = args.slice(2);
+            return subCommand.execute({
+                message,
+                args,
+                client,
+                guild: (<Eris.GuildChannel>message.channel).guild
+            });
+        }
+
+        args = args.slice(1);
         command.execute({
             message,
             args,

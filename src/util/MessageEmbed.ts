@@ -8,11 +8,11 @@ export = class MessageEmbed {
         this.options = {
             title: "",
             description: "",
-            color: undefined,
+            color: 0xffffff,
             fields: [],
-            footer: undefined,
-            author: undefined,
-            thumbnail: undefined
+            footer: { icon_url: "", text: "" },
+            author: { icon_url: "", name: "", url: "" },
+            thumbnail: { url: "" }
         };
     }
 
@@ -31,7 +31,7 @@ export = class MessageEmbed {
         return this;
     }
 
-    setColor(color: colors) {
+    setTreeColor(color: colors) {
         let colorTree = {
             RED: 0xCB0E36,
             ORANGE: 0xff7d45,
@@ -42,6 +42,11 @@ export = class MessageEmbed {
         }
 
         this.options.color = colorTree[color];
+        return this;
+    }
+
+    setIntColor(color: number) {
+        this.options.color = color;
         return this;
     }
 
@@ -63,6 +68,12 @@ export = class MessageEmbed {
     setThumbnail(opts: { url: string }) {
         this.options.thumbnail = opts;
         return this;
+    }
+
+    createErrorEmbed(text: string) {
+        this.options.description = `:x: ${text}`;
+        this.options.color = 0xCB0E36;
+        return this.create();
     }
 
     create() {

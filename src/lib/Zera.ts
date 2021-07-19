@@ -1,5 +1,5 @@
 import Eris = require("eris");
-import { botCommand, botPlugin, colors } from "../Context";
+import { botCommand, botPlugin, colors, subCommandBuilder } from "../Context";
 import TestManager = require("../managers/TestManager");
 import Logger = require("../util/Logger");
 import CommandHandler = require("./handlers/CommandHandler");
@@ -8,6 +8,7 @@ import LoadPlugins = require("./LoadPlugins");
 export = class Zera extends Eris.Client {
     commands = new Map<string, botCommand>();
     plugins = new Map<string, botPlugin>();
+    subCommands = new Map<string, subCommandBuilder>();
     logger: Logger = new Logger();
     
     constructor(options: Eris.ClientOptions) {
@@ -15,7 +16,8 @@ export = class Zera extends Eris.Client {
 
         LoadPlugins({
             commands: this.commands,
-            plugins: this.plugins
+            plugins: this.plugins,
+            subCommands: this.subCommands
         });
 
         this.on("ready", this.onReady.bind(this));
