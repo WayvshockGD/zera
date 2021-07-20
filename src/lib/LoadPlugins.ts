@@ -27,7 +27,6 @@ function loadSubCommands(command: botCommand, { subCommands }: caches<string>) {
     if (!command.subCommands?.length) return;
 
     for (let sub of command.subCommands) {
-        console.log(sub);
-        subCommands.set(sub.name, sub);
+        subCommands.set(sub.command.name, sub.command);
      }
 }

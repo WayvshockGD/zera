@@ -8,6 +8,8 @@ let mute = new SubCommand({
     desc: "Mutes a user in a voice channel.",
 }, ({ message, guild, args }) => {
 
+    let vc;
+
     if (!args[0]) {
         return message.channel.createMessage({
             embed: new MessageEmbed()
@@ -15,13 +17,6 @@ let mute = new SubCommand({
         });
     }
     let member = Resolver.getUser(guild, args[0]);
-
-    if (!member.voiceState.id) {
-        return message.channel.createMessage({
-            embed: new MessageEmbed()
-                   .createErrorEmbed("User is not in a voice channel")
-        })
-    }
 
     member.edit({ mute: true }, args[1] || "No reason");
 })
@@ -31,7 +26,7 @@ module.exports = new Command({
     desc: "Mute command for voice channels",
     subCommands: [
         {
-            name: mute,
+            command: mute,
         }
     ]
 }, () => {

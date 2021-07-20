@@ -17,8 +17,10 @@ export = class CommandHandler {
 
         let subCommand = subCommands.get(args[1]);
 
+        args = args.slice(1);
+
         if (subCommand) {
-            args = args.slice(2);
+            args = args.slice(1);
             return subCommand.execute({
                 message,
                 args,

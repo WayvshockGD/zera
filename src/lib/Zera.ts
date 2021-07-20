@@ -1,15 +1,20 @@
 import Eris = require("eris");
-import { botCommand, botPlugin, colors, subCommandBuilder } from "../Context";
+import { botCommand, botPlugin, botSubCommand, colors } from "../Context";
 import TestManager = require("../managers/TestManager");
 import Logger = require("../util/Logger");
 import CommandHandler = require("./handlers/CommandHandler");
 import LoadPlugins = require("./LoadPlugins");
+import tyr from "@thesharks/tyr/dist/eris";
+import Config = require("../Config");
+
+let { config } = Config();
 
 export = class Zera extends Eris.Client {
     commands = new Map<string, botCommand>();
     plugins = new Map<string, botPlugin>();
-    subCommands = new Map<string, subCommandBuilder>();
+    subCommands = new Map<string, botSubCommand>();
     logger: Logger = new Logger();
+    player: tyr.ErisPlayerManager;
     
     constructor(options: Eris.ClientOptions) {
         super(TestManager.token, options);
@@ -19,6 +24,14 @@ export = class Zera extends Eris.Client {
             plugins: this.plugins,
             subCommands: this.subCommands
         });
+
+        this.player = new tyr.ErisPlayerManager([
+            {
+                host: config.lavalink.host,
+                port: config.lavalink.port,
+                password: config.lavalink.password
+            }
+        ])
 
         this.on("ready", this.onReady.bind(this));
         this.on("messageCreate", (msg: Eris.Message) => CommandHandler.run(msg, this));
@@ -46,9 +59,10 @@ export = class Zera extends Eris.Client {
     } 
 
     async connect() {
-        return super.connect()
+        super.connect()
         .catch((error) => {
             this.logger.error(error);
-        })
+        });
+        //await this.player.startServers();
     }
 }

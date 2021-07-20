@@ -15,6 +15,11 @@ export interface config {
             betaToken: string;
             botToken: string;
         }
+        lavalink: {
+            host: string;
+            port: number;
+            password: string;
+        }
     }
 }
 
@@ -36,7 +41,8 @@ export interface botPlugin {
 
 export interface subCommandBuilder {
     name: string;
-    enabled: boolean;
+    desc: boolean;
+    [key: string]: any;
 }
 
 export interface botCommand {
@@ -50,7 +56,7 @@ export interface botCommand {
 }
 
 export interface botSubCommand {
-    name: subCommandBuilder;
+    command: subCommandBuilder;
     enabled: boolean;
     [key: string]: any;
 }
