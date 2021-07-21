@@ -76,6 +76,12 @@ export = class MessageEmbed {
         return this.create();
     }
 
+    createSuccessEmbed(text: string) {
+        this.options.description = `<:ZeraCheck:827721798044352562> ${text}`;
+        this.options.color = 0x45ff4b;
+        return this.create();
+    }
+
     create() {
         return this.options;
     }

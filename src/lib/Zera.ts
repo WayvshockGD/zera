@@ -4,7 +4,7 @@ import TestManager = require("../managers/TestManager");
 import Logger = require("../util/Logger");
 import CommandHandler = require("./handlers/CommandHandler");
 import LoadPlugins = require("./LoadPlugins");
-import tyr from "@thesharks/tyr/dist/eris";
+import LavaServer from "./LavaServer";
 import Config = require("../Config");
 
 let { config } = Config();
@@ -14,7 +14,7 @@ export = class Zera extends Eris.Client {
     plugins = new Map<string, botPlugin>();
     subCommands = new Map<string, botSubCommand>();
     logger: Logger = new Logger();
-    player: tyr.ErisPlayerManager;
+    player: LavaServer;
     
     constructor(options: Eris.ClientOptions) {
         super(TestManager.token, options);
@@ -24,15 +24,58 @@ export = class Zera extends Eris.Client {
             plugins: this.plugins,
             subCommands: this.subCommands
         });
+        
+        this.player = new LavaServer({
+            nodes: [
+                {
+                    host: config.lavalink.host,
+                    port: config.lavalink.port,
+                    password: config.lavalink.password,
+                    identifier: "zera/nodes/1",
+                }
+            ],
+            send: (id, payload) => {
+                let guild = this.guilds.get(id);
 
-        this.player = new tyr.ErisPlayerManager([
-            {
-                host: config.lavalink.host,
-                port: config.lavalink.port,
-                password: config.lavalink.password
+                if (guild) {
+                    guild.shard.sendWS(payload.op, payload.d);
+                }
             }
-        ])
+        });
 
+        this.player.on("nodeConnect", (node) => {
+            this.logger.success(`Launched lavaPlayer node ${node.options.identifier}`);
+        });
+        this.player.on("trackStart", ({ textChannel }, tr) => {
+            this.createMessage(`${textChannel}`, {
+                embed: {
+                    description: `Playing track [${tr.title}](${tr.uri})`,
+                    thumbnail: {
+                        url: tr.displayThumbnail("maxresdefault")
+                    }
+                }
+            })
+        })
+        this.player.on("trackError", (pl, tr) => {
+            this.createMessage(`${pl.textChannel}`, {
+                embed: {
+                    description: `There was a error while playing ${tr.title}`
+                }
+            })
+        });
+        this.player.on("queueEnd", (pl, tr) => {
+            this.createMessage(`${pl.textChannel}`, {
+                embed: {
+                    description: `Queue has ended, leaving vc...`
+                }
+            })
+            pl.destroy();
+        })
+
+        this.on("rawWS", (payload) => {
+            // @ts-ignore
+            this.player.updateVoiceState(payload);
+        });
         this.on("ready", this.onReady.bind(this));
         this.on("messageCreate", (msg: Eris.Message) => CommandHandler.run(msg, this));
     }
@@ -55,6 +98,7 @@ export = class Zera extends Eris.Client {
             name: `Mod Logs`,
             type: 0
         });
+        this.player.init(this.user.id);
         this.logger.success(`Started client ${this.user.username}`);
     } 
 

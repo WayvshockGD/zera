@@ -1,11 +1,13 @@
 import { botCommand, botPlugin, caches } from "../Context";
 import fs from "fs";
 import Logger from "../util/Logger";
+import Config from "../Config"
 
+let { config } = Config();
 let logger = new Logger();
 
 export = function({ commands, plugins, subCommands }: caches<string>) {
-    let folder = fs.readdirSync("./dist/src/plugins/");
+    let folder = fs.readdirSync(config.ts_node ? "./src/plugins/" : "./dist/src/plugins/");
 
     for (let file of folder) {
         let plugin: botPlugin = require(`../plugins/${file}/index`);

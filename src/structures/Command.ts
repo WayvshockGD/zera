@@ -34,13 +34,8 @@ export = class Command {
 
     }
 
-    public execute({ message, args, client, guild }: ctx) {
-        this.fn({
-            message,
-            args,
-            client,
-            guild
-        });
+    public execute(context: ctx) {
+        this.fn(context);
     }
 
 }

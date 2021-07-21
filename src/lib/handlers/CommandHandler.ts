@@ -19,22 +19,33 @@ export = class CommandHandler {
 
         args = args.slice(1);
 
+        if ([
+            "next", 
+            "pause", 
+            "queue",
+            "resume", 
+            "play"
+            ].includes(command.name) && !message.member?.voiceState.channelID) {
+                return message.channel.createMessage("Join a voice channel first before running.");
+            } 
+
         if (subCommand) {
             args = args.slice(1);
             return subCommand.execute({
                 message,
                 args,
                 client,
-                guild: (<Eris.GuildChannel>message.channel).guild
+                guild: (<Eris.GuildChannel>message.channel).guild,
+                player: client.player
             });
         }
 
-        args = args.slice(1);
         command.execute({
             message,
             args,
             client,
-            guild: (<Eris.GuildChannel>message.channel).guild
+            guild: (<Eris.GuildChannel>message.channel).guild,
+            player: client.player
         });
     }
 }

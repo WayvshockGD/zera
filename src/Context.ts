@@ -1,4 +1,5 @@
 import Eris = require("eris");
+import LavaServer = require("./lib/LavaServer");
 import Zera = require("./lib/Zera");
 
 export type colors = "BLUE" | "GREEN" | "RED" | "ORANGE" | "YELLOW" | "PURPLE";
@@ -6,6 +7,8 @@ export type colors = "BLUE" | "GREEN" | "RED" | "ORANGE" | "YELLOW" | "PURPLE";
 export interface config {
     config: {
         beta: boolean;
+        ts_node: boolean;
+        clientID: string;
         owners: Array<string>;
         prefix: {
             betaPrefix: string;
@@ -66,4 +69,5 @@ export interface ctx {
     message: Eris.Message;
     client: Zera;
     guild: Eris.Guild;
+    player: LavaServer;
 }

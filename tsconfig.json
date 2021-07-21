@@ -1,4 +1,9 @@
 {
+    "extends": "ts-node/node12/tsconfig.json",
+    "ts-node": {
+        "transpileOnly": true,
+        "files": true,
+    },
     "compilerOptions": {
         "module": "commonjs",
         "allowJs": true,
@@ -6,7 +11,7 @@
         "outDir": "./dist",
         "target": "ESNext",
         "esModuleInterop": true,
-        "strict": true
+        "strict": true,
     },
     "exclude": [
         "node_modules",
