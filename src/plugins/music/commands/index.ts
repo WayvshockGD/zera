@@ -3,5 +3,6 @@ export = [
     require("./Pause"),
     require("./Resume"),
     require("./Queue"),
-    require("./Next")
+    require("./Next"),
+    require("./Filter")
 ]

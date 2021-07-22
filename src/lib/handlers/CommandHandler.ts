@@ -1,5 +1,6 @@
 import Eris from "eris";
 import TestManager from "../../managers/TestManager";
+import MessageEmbed from "../../util/MessageEmbed";
 import Zera from "../Zera";
 
 export = class CommandHandler {
@@ -24,10 +25,30 @@ export = class CommandHandler {
             "pause", 
             "queue",
             "resume", 
-            "play"
-            ].includes(command.name) && !message.member?.voiceState.channelID) {
+            "play",
+            "filter"
+            ].includes(command.name) && message.member?.voiceState.channelID === undefined) {
                 return message.channel.createMessage("Join a voice channel first before running.");
             } 
+
+        let guild = (<Eris.GuildChannel>message.channel).guild;
+
+        if (command.permissions?.length) {
+            let perms: string[] = [];
+            for (let perm of command.permissions) {
+                // @ts-ignore
+                if (!guild.permissionsOf(message.author.id).has(perm)) {
+                    perms.push(perm);
+                }
+            }
+
+            if (perms.length) {
+                return message.channel.createMessage({
+                    embed: new MessageEmbed({})
+                           .createErrorEmbed(`You need the permissions \`${perms.join(", ")}\` to use this.`)
+                })
+            }
+        }
 
         if (subCommand) {
             args = args.slice(1);
@@ -35,7 +56,7 @@ export = class CommandHandler {
                 message,
                 args,
                 client,
-                guild: (<Eris.GuildChannel>message.channel).guild,
+                guild,
                 player: client.player
             });
         }
@@ -44,7 +65,7 @@ export = class CommandHandler {
             message,
             args,
             client,
-            guild: (<Eris.GuildChannel>message.channel).guild,
+            guild,
             player: client.player
         });
     }

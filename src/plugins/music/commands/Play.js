@@ -5,20 +5,16 @@ module.exports = new Command({
     name: "play",
     desc: "Play songs in vc."
 }, async ({ player, message, args }) => {
-    if (!message.member.voiceState.channelID) {
-        return message.channel.createMessage({
-            embed: new MessageEmbed()
-                   .createErrorEmbed("Join a voice channel first.")
-        })
-    }
 
     let dispatcher = player.create({
         guild: message.guildID,
         voiceChannel: message.member.voiceState.channelID,
         textChannel: message.channel.id,
+        selfDeafen: true
     });
 
-    dispatcher.connect();
+
+    if (dispatcher.state != "CONNECTED") dispatcher.connect();
 
     let res = await dispatcher.search(args.join(" "), message.author);
 
@@ -43,7 +39,6 @@ module.exports = new Command({
                    : `Added \`${tracks[0].title}\` to the queue.`
                 )
     })
-
 
     if (!dispatcher.playing && !dispatcher.paused && dispatcher.queue.totalSize === tracks.length) {
         dispatcher.play();

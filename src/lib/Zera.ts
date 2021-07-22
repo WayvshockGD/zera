@@ -31,7 +31,7 @@ export = class Zera extends Eris.Client {
                     host: config.lavalink.host,
                     port: config.lavalink.port,
                     password: config.lavalink.password,
-                    identifier: "zera/nodes/1",
+                    identifier: "zera:nodes:1",
                 }
             ],
             send: (id, payload) => {

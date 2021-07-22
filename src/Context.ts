@@ -51,10 +51,10 @@ export interface subCommandBuilder {
 export interface botCommand {
     name: string;
     desc: string;
-    permission?: string;
     subCommands?: subCommandBuilder[];
     owner?: boolean;
     guildOnly?: boolean;
+    permissions?: string[];
     [key: string]: any;
 }
 

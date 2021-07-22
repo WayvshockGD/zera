@@ -10,7 +10,7 @@ export = class Command {
 
     enabled: boolean;
 
-    permission: string | undefined;
+    permissions: string[] | undefined;
 
     owner: boolean | undefined;
 
@@ -22,7 +22,7 @@ export = class Command {
 
         this.name = options.name;
 
-        this.permission = options.permission;
+        this.permissions = options.permissions;
 
         this.desc = options.desc;
 

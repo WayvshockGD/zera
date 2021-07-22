@@ -10,7 +10,8 @@
     "chalk": "^4.1.1",
     "color-parser": "^0.1.0",
     "erela.js": "^2.3.3",
-    "eris": "^0.15.1",
+    "erela.js-filters": "^1.2.2",
+    "eris": "github:abalabahaha/eris#dev",
     "moment": "^2.29.1",
     "yaml": "^1.10.2"
   },

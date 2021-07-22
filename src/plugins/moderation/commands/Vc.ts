@@ -94,7 +94,8 @@ module.exports = new Command({
             command: unmute,
             enabled: true
         }
-    ]
+    ],
+    permissions: ["voiceMuteMembers"]
 }, () => {
     return;
 })
