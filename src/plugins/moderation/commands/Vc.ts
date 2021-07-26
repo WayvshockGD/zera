@@ -25,19 +25,19 @@ let mute = new SubCommand({
         })
     }
 
+    if (!member.voiceState.channelID) {
+        return message.channel.createMessage({
+            embeds: [new MessageEmbed({})
+                       .createErrorEmbed("Mentioned user is not in a voice channel")]
+        })
+    }
+    
+
     member.edit({ mute: true }, args[1] || "No reason")
-           .catch((e: DiscordRESTError) => {
-               if (e.code === 40032) {
-                   message.channel.createMessage({
-                       embed: new MessageEmbed({})
-                              .createErrorEmbed("Mentioned user is not in a voice channel")
-                   })
-               }
-           })
            .then(() => {
-               message.channel.createMessage({
-                   embed: new MessageEmbed({})
-                          .createSuccessEmbed(`Muted target ${member?.username}`)
+               return message.channel.createMessage({
+                   embeds: [new MessageEmbed({})
+                          .createSuccessEmbed(`Muted target ${member?.username}`)]
                })
            })
 })
@@ -50,32 +50,31 @@ let unmute = new SubCommand({
 
     if (!args[0]) {
         return message.channel.createMessage({
-            embed: new MessageEmbed({})
-                   .createErrorEmbed("You must mention a user.")
+            embeds: [new MessageEmbed({})
+                   .createErrorEmbed("You must mention a user.")]
         });
     }
     let member = Resolver.getUser(guild, args[0]);
 
     if (!member) {
         return message.channel.createMessage({
-            embed: new MessageEmbed({})
-                   .createErrorEmbed("Cannot find that user in this guild.")
+            embeds: [new MessageEmbed({})
+                   .createErrorEmbed("Cannot find that user in this guild.")]
+        })
+    }
+
+    if (!member.voiceState.channelID) {
+        return message.channel.createMessage({
+            embeds: [new MessageEmbed({})
+                       .createErrorEmbed("Mentioned user is not in a voice channel")]
         })
     }
 
     member.edit({ mute: false }, args[1] || "No reason")
-           .catch((e: DiscordRESTError) => {
-               if (e.code === 40032) {
-                   message.channel.createMessage({
-                       embed: new MessageEmbed({})
-                              .createErrorEmbed("Mentioned user is not in a voice channel")
-                   })
-               }
-           })
            .then(() => {
-               message.channel.createMessage({
-                   embed: new MessageEmbed({})
-                          .createSuccessEmbed(`Unmuted target ${member?.username}`)
+               return message.channel.createMessage({
+                   embeds: [new MessageEmbed({})
+                          .createSuccessEmbed(`Unmuted target ${member?.username}`)]
                })
            })
 })

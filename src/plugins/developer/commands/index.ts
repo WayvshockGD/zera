@@ -1,3 +1,4 @@
 export = [
-    require("./Update")
+    require("./Update"),
+    require("./Eval")
 ];

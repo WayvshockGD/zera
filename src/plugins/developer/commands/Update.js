@@ -1,6 +1,7 @@
 let Command = require("../../../structures/Command");
 let process = require("child_process");
 let MessageEmbed = require("../../../util/MessageEmbed");
+const Util = require("../../../util/Util");
 
 module.exports = new Command({
     name: "update",
@@ -17,7 +18,8 @@ module.exports = new Command({
     }
 
     let updateEmbed = new MessageEmbed()
-        .setDescription(`\`\`\`\n${log}\n\`\`\``)
+        .setDescription(Util.createCodeBlock(log))
+        .setTreeColor("BLUE")
         .create();
 
     message.channel.createMessage({

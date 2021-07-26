@@ -1,7 +1,10 @@
 import Eris from "eris";
+import Config from "../../Config";
 import TestManager from "../../managers/TestManager";
 import MessageEmbed from "../../util/MessageEmbed";
 import Zera from "../Zera";
+
+let { config } = Config();
 
 export = class CommandHandler {
     public static run(message: Eris.Message, client: Zera) {
@@ -49,6 +52,8 @@ export = class CommandHandler {
                 })
             }
         }
+
+        if (command.owner && !config.owners.includes(message.author.id)) return;
 
         if (subCommand) {
             args = args.slice(1);

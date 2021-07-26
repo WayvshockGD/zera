@@ -6,6 +6,8 @@ import CommandHandler = require("./handlers/CommandHandler");
 import LoadPlugins = require("./LoadPlugins");
 import LavaServer from "./LavaServer";
 import Config = require("../Config");
+import { GatewayServer, SlashCreator } from "slash-create";
+import path = require("path");
 
 let { config } = Config();
 
@@ -15,6 +17,7 @@ export = class Zera extends Eris.Client {
     subCommands = new Map<string, botSubCommand>();
     logger: Logger = new Logger();
     player: LavaServer;
+    slashCreator: SlashCreator;
     
     constructor(options: Eris.ClientOptions) {
         super(TestManager.token, options);
@@ -23,6 +26,12 @@ export = class Zera extends Eris.Client {
             commands: this.commands,
             plugins: this.plugins,
             subCommands: this.subCommands
+        });
+
+        this.slashCreator = new SlashCreator({
+            applicationID: TestManager.id,
+            publicKey: TestManager.key,
+            token: TestManager.token
         });
         
         this.player = new LavaServer({
@@ -78,6 +87,18 @@ export = class Zera extends Eris.Client {
         });
         this.on("ready", this.onReady.bind(this));
         this.on("messageCreate", (msg: Eris.Message) => CommandHandler.run(msg, this));
+        this.initSlash();
+    }
+
+    private initSlash() {
+        this.slashCreator.withServer(
+            new GatewayServer((h) => this.on("rawWS", (event) => {
+                // @ts-ignore
+                if (event.t === "INTERACTION_CREATE") h(event.d);
+            }))
+        )
+        .registerCommandsIn(path.join(__dirname, "..", "slash"))
+        .syncCommands();
     }
 
     public getColor(color: colors) {

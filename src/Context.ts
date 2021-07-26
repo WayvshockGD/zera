@@ -10,6 +10,14 @@ export interface config {
         ts_node: boolean;
         clientID: string;
         owners: Array<string>;
+        appID: {
+            botID: string;
+            betaID: string;
+        }
+        pubKey: {
+            betaKey: string;
+            botKey: string;
+        }
         prefix: {
             betaPrefix: string;
             botPrefix: string;

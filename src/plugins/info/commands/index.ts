@@ -1,4 +1,5 @@
 export = [
     require("./Stats"),
-    require("./Avatar")
+    require("./Avatar"),
+    require("./ChannelInfo")
 ]
