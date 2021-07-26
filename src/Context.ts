@@ -23,6 +23,7 @@ export interface config {
             port: number;
             password: string;
         }
+        database: {}
     }
 }
 

@@ -12,6 +12,7 @@
     "erela.js": "^2.3.3",
     "erela.js-filters": "^1.2.2",
     "eris": "github:abalabahaha/eris#dev",
+    "knex": "^0.95.8",
     "moment": "^2.29.1",
     "yaml": "^1.10.2"
   },
