@@ -1,3 +1,4 @@
+import "./src/database/Knex";
 import Zera from "./src/lib/Zera";
 
 new Zera({
@@ -7,7 +8,7 @@ new Zera({
         "guildMessages", 
         "guilds", 
         "guildMembers", 
-        "guildVoiceStates"
+        "guildVoiceStates",
     ],
     allowedMentions: {
         everyone: false

@@ -14,6 +14,7 @@
     "eris": "github:abalabahaha/eris#dev",
     "knex": "^0.95.8",
     "moment": "^2.29.1",
+    "mysql": "^2.18.1",
     "slash-create": "^3.3.0",
     "yaml": "^1.10.2"
   },
@@ -22,7 +23,7 @@
   "description": "A bot for your discord server.",
   "main": "./dist/start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsnd --watch script start.ts"
   },
   "author": "Wayvshock",
   "license": "Apache-2.0"

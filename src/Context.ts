@@ -1,4 +1,5 @@
 import Eris = require("eris");
+import { Knex } from "knex";
 import LavaServer = require("./lib/LavaServer");
 import Zera = require("./lib/Zera");
 
@@ -31,7 +32,12 @@ export interface config {
             port: number;
             password: string;
         }
-        database: {}
+        database: {
+            username: string;
+            password: string;
+            dbname: string;
+            host: string;
+        }
     }
 }
 
@@ -79,4 +85,5 @@ export interface ctx {
     client: Zera;
     guild: Eris.Guild;
     player: LavaServer;
+    database: Knex;
 }
